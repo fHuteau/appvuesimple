@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Number API</title>
+    </head>
+    <body>
+        <div id="app">
+            <input
+                    type="number"
+                    v-model="nb"
+            >
+
+        </div>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/vue@3"></script>
+        <script >
+            const apiURL ="http://numbersapi.com/"
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        nb: 0,
+                    };
+                },
+                watch: {
+                    nb: "fetchDataAsync", //fetchDataAsync
+                },
+                created: function () {
+                    this.fetchDataAsync()
+                },
+                methods: {
+                    fetchDataAsync: async function () {
+                        try {
+                            const trivia = await axios.get(apiURL + this.nb + "/trivia")
+                            const math = await axios.get(apiURL + this.nb + "/math")
+                            const year = await axios.get(apiURL + this.nb + "/year")
+                            const date = await axios.get(apiURL + this.nb + "/date")
+                            console.log(trivia.data)
+                            console.log(math.data)
+                            console.log(year.data)
+                            console.log(date.data)
+                        } catch(error) {
+                            console.log(error);
+                        }
+                    },
+                }
+            }).mount("#app")
+        </script>
+    </body>
+</html>
