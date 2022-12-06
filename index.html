@@ -10,7 +10,10 @@
                     type="number"
                     v-model="nb"
             >
-
+            <p>{{ triviaTxt }}</p>
+            <p>{{ mathTxt }}</p>
+            <p>{{ yearTxt }}</p>
+            <p>{{ dateTxt }}</p>
         </div>
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -21,14 +24,18 @@
                 data() {
                     return {
                         nb: 0,
+                        triviaTxt: "",
+                        mathTxt: "",
+                        yearTxt: "",
+                        dateTxt: "",
                     };
                 },
                 watch: {
                     nb: "fetchDataAsync", //fetchDataAsync
                 },
-                created: function () {
-                    this.fetchDataAsync()
-                },
+                // created: function () {
+                //     this.fetchDataAsync()
+                // },
                 methods: {
                     fetchDataAsync: async function () {
                         try {
@@ -36,10 +43,10 @@
                             const math = await axios.get(apiURL + this.nb + "/math")
                             const year = await axios.get(apiURL + this.nb + "/year")
                             const date = await axios.get(apiURL + this.nb + "/date")
-                            console.log(trivia.data)
-                            console.log(math.data)
-                            console.log(year.data)
-                            console.log(date.data)
+                            this.triviaTxt = trivia.data;
+                            this.mathTxt = math.data;
+                            this.yearTxt = year.data;
+                            this.dateTxt = date.data;
                         } catch(error) {
                             console.log(error);
                         }
